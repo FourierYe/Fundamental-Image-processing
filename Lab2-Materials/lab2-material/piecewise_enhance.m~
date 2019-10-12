@@ -1,0 +1,9 @@
+function y = piecewise_enhance(x)
+    if(x>=0 & x < 80)
+        y=1/2*x;
+    elseif(x>=80 & x<180)
+        y=3/2*x;
+    else
+        y=2/3*x;
+    end
+end
