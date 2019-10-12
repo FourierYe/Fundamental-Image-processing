@@ -7,7 +7,6 @@ if left_index >= right_index
     return;
 end
 
-
 base = x(left_index);
 
 while left_index < right_index
@@ -26,12 +25,9 @@ while left_index < right_index
     
 end
 
-% left_index
-
 temp = x(left_index);
 x(left_index) = base;
 x(original_left_index) = temp;
-
 
 x = my_quick_sort(x, original_left_index, left_index-1);
 x = my_quick_sort(x, right_index+1, original_right_index);
