@@ -1,11 +1,11 @@
+clear
+clc
 im_low = imread('lenna512_low_dynamic_range.bmp');
 
-x1 = 0;
-y1 = 0;
-x2 = 1;
-y2 = 1;
-x3 = 256;
-y3 = 256;
+x1_optimal = 0;
+y1_optimal = 0;
+x2_optimal = 1;
+y2_optimal = 1;
 
 histeq_image = histeq(im_low);
 
@@ -19,7 +19,7 @@ for x1 = 0:254
             
             for y2 = 0:254
                 
-                k1 = y1/x1;
+                k1 = (y1+1)/(x1+1);
                 interval1_left=0;
                 interval1_right=x1;
                 
@@ -36,7 +36,19 @@ for x1 = 0:254
                 psnr_current = CalculatePSNR(histeq_image,reconstructed_im);
                 
                 if(psnr_current > psnr_max)
+                    
                     psnr_max = psnr_current;
+                    
+                    x1_optimal = x1;
+                    y1_optimal = y1;
+                    
+                    x2_optimal = x2;
+                    y2_optimal = y2;
+                    
+                   
+                    k1_optimal = k1;
+                    k2_optimal = k2;
+                    k3_optimal = k3;
                 end
                 
             end
@@ -47,17 +59,14 @@ for x1 = 0:254
     
     psnr_max
     
-    x1
-    y1
+    x1_optimal
+    y1_optimal
     
-    x2
-    y2
+    x2_optimal
+    y2_optimal
     
-    x3
-    y3
-    
-    k1
-    k2
-    k3
+    k1_optimal
+    k2_optimal
+    k3_optimal
     
 end
