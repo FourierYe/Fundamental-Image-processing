@@ -11,13 +11,13 @@ histeq_image = histeq(im_low);
 
 psnr_max = 0;
 
-for x1 = 0:254
+for x1 = 0:16:254
     
-    for y1 = 0:255
+    for y1 = 0:16:255
         
-        for x2 = x1+1:254
+        for x2 = x1+1:16:254
             
-            for y2 = 0:254
+            for y2 = 0:16:254
                 
                 k1 = (y1+1)/(x1+1);
                 interval1_left=0;
@@ -49,6 +49,8 @@ for x1 = 0:254
                     k1_optimal = k1;
                     k2_optimal = k2;
                     k3_optimal = k3;
+                    
+                    reconstructed_im_optimal = reconstructed_im;
                 end
                 
             end
