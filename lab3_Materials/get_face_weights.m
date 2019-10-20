@@ -1,5 +1,7 @@
 function weights_of_face = get_face_weights(im, eignfaces_blk)
 
+im = double(im)
+
 [m,n,k] = size(eignfaces_blk);
 
 weights_of_face = [];

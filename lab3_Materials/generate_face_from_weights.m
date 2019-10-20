@@ -10,3 +10,8 @@ function im = generate_face_from_weights(weights_of_face, eignfaces_blk)
 
     im = uint8(sum);
 end
+
+
+% I think it isn't enough to just use 100 basis to describe 450*350 pixels, because if we want
+% to describe R^n vector space, we must use n basis which is independent to generate whole vector 
+% space. The 100 basis just can generate a subspace.
