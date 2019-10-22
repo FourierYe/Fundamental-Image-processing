@@ -1,3 +1,5 @@
+
+
 # 	Lab 2 - Image Processing EEE412
 
 #### Author: Zhipeng Ye    
@@ -265,3 +267,296 @@ $$
 #### Write a function to generate a piece-wise linear mapping transform to enhance the contrast of im_low_dynamic_range, verify the effectiveness of several mapping transform functions by evaluating the PSNR with respect to the reference image, and show all enhanced images. Include also in your report the best intensity mapping function you obtained. 
 
 ##### Code
+
+```matlab
+clear
+clc
+im = imread('lenna512.bmp')
+im_low_dynamic_range = imread('lenna512_low_dynamic_range.bmp')
+
+[m,n]=size(im_low_dynamic_range);
+after_image = zeros(m,n);
+
+for i=1:m
+    for j=1:n
+        after_image(i,j)=piecewise_enhance(im_low_dynamic_range(i,j));
+    end
+end
+
+figure(1)
+imshow(uint8 ( after_image))
+title('enhanced image')
+figure(2)
+imhist(uint8 ( after_image))
+title('enhanced image')
+
+figure(3)
+imshow(im)
+title('original image')
+figure(4)
+imhist(im)
+title('original image')
+```
+
+```matlab
+function y = piecewise_enhance(x)
+    if(x>=0 & x < 96)
+        y=0.8351*x;
+    elseif(x>96 & x<145)
+        y=0.9796*x;
+    else
+        y=1.1636*x;
+    end
+end
+```
+
+##### Result
+
+![image-20191022171922859](/Users/geekye/Documents/Courses/image processing/lab/Lab2-Materials/lab2-report/task2_1.png)
+
+![image-20191022172040461](/Users/geekye/Documents/Courses/image processing/lab/Lab2-Materials/lab2-report/task2_1_2.png)
+
+##### Analyze
+
+This question ask me to generate a best linear mapping function to enhance image. I think it is impossible to generate a best one because equalization can't be implemented by linear functions completely. Therefore I use a function to find a better linear combination. Here is my code.
+
+##### Code
+
+```matlab
+clear
+clc
+im_low_dynamic_range = imread('lenna512_low_dynamic_range.bmp');
+im = imread('lenna512.bmp');
+
+x1_optimal = 0;
+y1_optimal = 0;
+x2_optimal = 1;
+y2_optimal = 1;
+
+histeq_image = histeq(im_low_dynamic_range);
+
+psnr_max = 0;
+
+for x1 = 0:16:254
+    
+    for y1 = 0:16:255
+        
+        for x2 = x1+1:16:254
+            
+            for y2 = 0:16:254
+                
+                k1 = (y1+1)/(x1+1);
+                interval1_left=0;
+                interval1_right=x1;
+                
+                k2 = (y2-y1)/(x2-x1);
+                interval2_left = x1;
+                interval2_right = x2;
+                
+                k3 = (256-y2)/(255-x2);
+                interval3_left = x2;
+                interval3_right = 255;
+                
+                reconstructed_im = reconstruct_image(im_low_dynamic_range, x1,x2,k1,k2,k3);
+                
+                psnr_current = CalculatePSNR(im,reconstructed_im);
+                
+                if(psnr_current > psnr_max)
+                    
+                    psnr_max = psnr_current;
+                    
+                    x1_optimal = x1;
+                    y1_optimal = y1;
+                    
+                    x2_optimal = x2;
+                    y2_optimal = y2;
+                    
+                   
+                    k1_optimal = k1;
+                    k2_optimal = k2;
+                    k3_optimal = k3;
+                    
+                    reconstructed_im_optimal = reconstructed_im;
+                end
+                
+            end
+            
+        end
+        
+    end
+    
+    psnr_max
+    
+    x1_optimal
+    y1_optimal
+    
+    x2_optimal
+    y2_optimal
+    
+    k1_optimal
+    k2_optimal
+    k3_optimal
+    
+end
+```
+
+Result
+
+![image-20191022174157882](/Users/geekye/Documents/Courses/image processing/lab/Lab2-Materials/lab2-report/task2_1_3.png)
+
+##### Analyze
+
+As you can see from code, I use loop for traversal points and compare PSNR by original image and reconstructed image. When I get a largest PSNR, I record this data. In summary, this method is a little stupid because we have a equalization formula, but I think it is a innovation. I use the equalization formula as follows.
+
+##### Code
+
+```matlab
+clear
+clc
+
+im = imread('lenna512.bmp');
+
+im_low_dynamic_range = imread('lenna512_low_dynamic_range.bmp');
+
+[m, n] = size(im_low_dynamic_range);
+
+reconstructed_im = zeros(m,n);
+
+% count pixels
+
+pixels = linspace(0,0,256);
+
+for i = 1:m
+    for j = 1:n
+        index = im_low_dynamic_range(i,j)-1;
+        pixels(index) = pixels(index) + 1;
+    end
+end
+
+% reconstruct image
+A_0 = m*n;
+L = 255;
+for i = 1:m
+    for j =1:n
+       value_pixel = im_low_dynamic_range(i,j);
+       sum = 0;
+       for k = 1:value_pixel+1
+           sum = sum + pixels(k);
+       end
+       reconstructed_im(i,j) =  L/A_0 *sum;
+    end 
+end
+
+imshow(uint8(reconstructed_im));
+
+```
+
+##### Result
+
+![image-20191022184853275](/Users/geekye/Documents/Courses/image processing/lab/Lab2-Materials/lab2-report/task2_1_4.png)
+
+##### Analyze
+
+As mentioned before, we can use equalization formula. Let's review this important formula. 
+
+Let $A_0$ represents the whole number of pixels, $L$ represents the value of pixel. 
+
+Continuous form
+$$
+f(D_A) = \frac{L}{A_0}\int_0^{D_A}H_A(D)dD
+$$
+Discrete form
+$$
+f(D_A) = \frac{L}{A_0}\sum_{u=0}^{D_A}H_A(u)
+$$
+It is very helpful to get practice from this question and it is much better than linear mapping.
+
+#### Use the command histeq which enhances the contrast of the images by transforming the values in an intensity image. Compare the current result with the best intensity mapping function in (1). Comment and **briefly** explain your finding. 
+
+##### Code
+
+```matlab
+enhanced_im_by_tool = histeq(im_low_dynamic_range)
+figure(5)
+imshow(enhanced_im_by_tool)
+title('enhanced_im_by_tool')
+figure(6)
+imhist(enhanced_im_by_tool)
+title('enhanced_im_by_tool')
+
+figure(7)
+imshow(im_low_dynamic_range)
+title('im_low_dynamic_range')
+figure(8)
+imhist(im_low_dynamic_range)
+title('im_low_dynamic_range')
+```
+
+##### Result
+
+![image-20191022191320359](/Users/geekye/Documents/Courses/image processing/lab/Lab2-Materials/lab2-report/task2_2_1.png)
+
+![image-20191022191358922](/Users/geekye/Documents/Courses/image processing/lab/Lab2-Materials/lab2-report/task2_2_2.png)
+
+##### Analyze
+
+We can see from the result, the function of histeq is to avoid pixels concentrate on the interval. The principle of histeq is mentioned before.
+
+### Task 3 (**10**’)
+
+#### Write the code to show the horizontal edges, vertical edges and all edges of the image *im.* Here, please use Sobel operators in the code. 
+
+##### Code
+
+```matlab
+im = imread('lenna512.bmp');
+im = im2double((im));
+sobel_horizontal=[-1.0 -2.0 -1.0;0.0 0.0 0.0; 1.0 2.0 1.0];
+sobel_vertical=[-1.0 0.0 1.0; -2.0 0.0 2.0; -1.0 0.0 1.0];
+sobel_all = sqrt(sobel_horizontal.^2+sobel_vertical.^2);
+
+horizontal_detection = imfilter(im, sobel_horizontal);
+vertical_detection = imfilter(im, sobel_vertical);
+all_detection = sqrt(horizontal_detection.^2+vertical_detection.^2)
+
+figure(1)
+imshow(horizontal_detection)
+title('horizontal_detection')
+figure(2)
+imshow(vertical_detection)
+title('vertical_detection')
+figure(3)
+imshow((all_detection))
+title('all_detection')
+```
+
+##### Result
+
+![image-20191023000941130](/Users/geekye/Documents/Courses/image processing/lab/Lab2-Materials/lab2-report/task3_1.png)
+
+##### Analyze
+
+As we can see from result, horizontal sobel can detect horizontal lines and vertical soble can detect vertical lines. Furthermore, All detection can detect all edge. We can know the principle from the formula.
+$$
+\begin{equation}
+\begin{split}
+G_x &= \begin{bmatrix} 
+ -1&0&1 \\
+ -2&0&2 \\
+ -1&0&1
+\end{bmatrix}*A \\
+\\
+G_y &= \begin{bmatrix}
+1&2&1\\
+0&0&0\\
+-1&-2&-1
+\end{bmatrix}*A \\
+\\
+G &= \sqrt{G_x^2+G_y^2} 
+\end{split}
+\end{equation}
+$$
+
+
+Everyone knows that sobel use first order differential to detect edge, but why we use 2 weights in matrix. I search this on the Internet, It is found in a blog, here is the url. http://blog.sciencenet.cn/blog-425437-1139187.html .The author explain very clearly.
+

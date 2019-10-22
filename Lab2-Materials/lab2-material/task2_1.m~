@@ -36,11 +36,7 @@ imhist(enhanced_im_by_tool)
 title('enhanced_im_by_tool')
 
 figure(7)
-imshow(im_low_dynamic_range)
-title('im_low_dynamic_range')
-figure(8)
-imhist(im_low_dynamic_range)
-title('im_low_dynamic_range')
+imshow(l)
 % 
 % figure(4)
 % imhist(im)

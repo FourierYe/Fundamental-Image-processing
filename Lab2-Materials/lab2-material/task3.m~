@@ -1,7 +1,6 @@
 im = imread('lenna512.bmp');
 im = im2double((im));
 sobel_horizontal=[-1.0 -2.0 -1.0;0.0 0.0 0.0; 1.0 2.0 1.0];
-% sobel_horizontal=[-1.0 -5.0 -1.0;0.0 0.0 0.0; 1.0 5.0 1.0];
 sobel_vertical=[-1.0 0.0 1.0; -2.0 0.0 2.0; -1.0 0.0 1.0];
 sobel_all = sqrt(sobel_horizontal.^2+sobel_vertical.^2);
 
@@ -11,10 +10,10 @@ all_detection = sqrt(horizontal_detection.^2+vertical_detection.^2)
 
 figure(1)
 imshow(horizontal_detection)
-title('horizontal detection')
+title('horizontal_detection')
 figure(2)
 imshow(vertical_detection)
-title('vertical detection')
+title('vertical_detection')
 figure(3)
 imshow((all_detection))
-title('all detection')
+title('all_detection')

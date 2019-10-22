@@ -1,13 +1,14 @@
 clear
 clc
-im_low = imread('lenna512_low_dynamic_range.bmp');
+im_low_dynamic_range = imread('lenna512_low_dynamic_range.bmp');
+im = imread('lenna512.bmp');
 
 x1_optimal = 0;
 y1_optimal = 0;
 x2_optimal = 1;
 y2_optimal = 1;
 
-histeq_image = histeq(im_low);
+histeq_image = histeq(im_low_dynamic_range);
 
 psnr_max = 0;
 
@@ -31,9 +32,9 @@ for x1 = 0:16:254
                 interval3_left = x2;
                 interval3_right = 255;
                 
-                reconstructed_im = reconstruct_image(im_low, x1,x2,k1,k2,k3);
+                reconstructed_im = reconstruct_image(im_low_dynamic_range, x1,x2,k1,k2,k3);
                 
-                psnr_current = CalculatePSNR(histeq_image,reconstructed_im);
+                psnr_current = CalculatePSNR(im,reconstructed_im);
                 
                 if(psnr_current > psnr_max)
                     
