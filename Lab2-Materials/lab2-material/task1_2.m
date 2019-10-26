@@ -1,15 +1,15 @@
-%  clear
-%  clc
- im = imread('lenna512.bmp');
- im = im2double(im);
- [m, n] = size(im);
- im_wn = zeros(m, n);
- for i=1:1:m
-     for j=1:1:n
-%          generate gaussian point
-     generate_point = generate_gaussian_noise();
-     im_wn(i, j) = im(i, j) + generate_point;
-     end
- end
- 
- imshow(im_wn)
+clear
+clc
+im = imread('lenna512.bmp');
+[m, n] = size(im);
+
+variance = 10;
+sigma = sqrt(variance);
+mu = 0;
+
+im_wn = guassian_noise(im, mu, sigma)
+
+imshow(im_wn)
+title('guassian points')
+
+psnr = psnr(im,im_wn)

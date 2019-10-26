@@ -20,21 +20,9 @@ for x1 = 0:16:254
             
             for y2 = 0:16:254
                 
-                k1 = (y1+1)/(x1+1);
-                interval1_left=0;
-                interval1_right=x1;
+                reconstructed_im = MySegmentLinear(im_low_dynamic_range,x1,x2,y1,y2);
                 
-                k2 = (y2-y1)/(x2-x1);
-                interval2_left = x1;
-                interval2_right = x2;
-                
-                k3 = (256-y2)/(255-x2);
-                interval3_left = x2;
-                interval3_right = 255;
-                
-                reconstructed_im = reconstruct_image(im_low_dynamic_range, x1,x2,k1,k2,k3);
-                
-                psnr_current = CalculatePSNR(im,reconstructed_im);
+                psnr_current = psnr(im,uint8(reconstructed_im));
                 
                 if(psnr_current > psnr_max)
                     
@@ -44,12 +32,7 @@ for x1 = 0:16:254
                     y1_optimal = y1;
                     
                     x2_optimal = x2;
-                    y2_optimal = y2;
-                    
-                   
-                    k1_optimal = k1;
-                    k2_optimal = k2;
-                    k3_optimal = k3;
+                    y2_optimal = y2;            
                     
                     reconstructed_im_optimal = reconstructed_im;
                 end
@@ -67,9 +50,5 @@ for x1 = 0:16:254
     
     x2_optimal
     y2_optimal
-    
-    k1_optimal
-    k2_optimal
-    k3_optimal
     
 end

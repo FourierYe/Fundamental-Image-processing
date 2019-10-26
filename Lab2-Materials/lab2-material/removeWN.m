@@ -3,37 +3,51 @@ clc
 im = imread('lenna512.bmp')
 [m, n] = size(im);
 sum = zeros(m,n);
+
 for i=1:10
-    
-    im_wn = createimwithwn(im);
+    im_wn = guassian_noise(im,0,sqrt(10));
+    im_wn = double(im_wn);
     sum = sum + im_wn;
 end
 
-im10_after = sum/10;
-imshow(uint8 (im10_after));
+im_wn10 = sum/10;
+im_wn10 = uint8(im_wn10);
 
-im_wn10 = CalculatePSNR(im, uint8(im10_after))
+figure(1)
+imshow(im_wn10);
+title('im10 after');
+
+psnr_im_wn10 = psnr(im, im_wn10);
 
 sum = zeros(m,n);
 for i=1:100
-    
-    im_wn = createimwithwn(im);
+    im_wn = guassian_noise(im,0,sqrt(10));
+    im_wn = double(im_wn);
     sum = sum + im_wn;
 end
 
-im100_after = sum/100;
-imshow(uint8 (im100_after));
+im_wn100 = sum/100;
+im_wn100 = uint8(im_wn100)
 
-im_wn100 = CalculatePSNR(im, im100_after)
+figure(2)
+imshow(im_wn100);
+title('im100 after')
+
+psnr_im_wn100 = psnr(im, im_wn100);
 
 
 sum = zeros(m,n);
 for i=1:1000
-    im_wn = createimwithwn(im);
+    im_wn = guassian_noise(im,0,sqrt(10));
+    im_wn = double(im_wn);
     sum = sum + im_wn;
 end
 
-im1000_after = sum/1000;
-imshow(uint8 (im1000_after));
+im_wn1000 = sum/1000;
+im_wn1000 = uint8(im_wn1000);
 
-im_wn1000 = CalculatePSNR(im, im1000_after)
+figure(3)
+imshow(im_wn1000);
+title('im1000 after')
+
+psnr_im_wn1000 = psnr(im, im_wn1000);
