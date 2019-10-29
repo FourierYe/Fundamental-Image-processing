@@ -10,7 +10,7 @@ for i = 1:k
         
         check_value = int16(sum(sum(matrix)));
           
-        if (check_value ~= 0)
+        if (abs(check_value - 0) > 0.000001)
             sprintf('i:%d,j:%d', i,j)
             disp('These eignface are not orthogonal!')
         end
