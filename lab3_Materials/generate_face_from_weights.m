@@ -1,6 +1,11 @@
 function im = generate_face_from_weights(weights_of_face, eignfaces_blk)
 
     [m,n,k] = size(eignfaces_blk);
+    [q,w] = size(weights_of_face);
+    
+    if(w~= k)
+       error('parameter error') 
+    end
     
     sum = zeros(m,n);
     

@@ -2,6 +2,7 @@ function ID = get_employees_ID_from_DB (im, employees_DB, eigenfaces_blk)
     
     [m,n,k] = size(eigenfaces_blk);
     
+%     get weights of face
     weights_of_face = get_face_weights(im,eigenfaces_blk);
     employer_distance_list = [];
     for i = 1:k
@@ -13,7 +14,8 @@ function ID = get_employees_ID_from_DB (im, employees_DB, eigenfaces_blk)
         employer_distance_list = [employer_distance_list,employ];
     end
     
+%     find the closest one
     [employer_distance_list_sorted, index] = sort([employer_distance_list.distance]);
     
-    ID = employer_distance_list(index).id
+    ID = [employer_distance_list(index(1:end)).id]
 end
