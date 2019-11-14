@@ -1,15 +1,28 @@
-image=imread('lenna512.bmp')
-% if we don't multiply 16 again, the image will be dark
-image_8=(image./16+1)*16-1;
+clear
+clc
 
-entropy16 = my_entropy(image_8)
+im = imread('lenna512.bmp');
+im = im2double(im);
 
-partion = 256/16-1 : 16:255
+im_padding = padarray(im,[1,1],'replicate');
 
-image_reshaped = reshape(image,[1,512*512]);
-image_reshaped = quantiz(image_reshaped, partion);
+[m,n] = size(im);
 
-image_original = reshape(image_reshaped,[512,512]);
+im_decoded = zeros(m,n);
 
-image_original = uint8(image_original);
-entropyQun = my_entropy(image_original)
+[j,k] = size(im_padding);
+
+for i=2:j-1
+   for j = 2:k-1 
+     im_decoded(i-1,j-1) = (2*im_padding(i,j-1)+ im_padding(i-1,j-1)+...
+         2*im_padding(i-1,j))/5;
+   end
+end
+
+im_error = im - im_decoded;
+im_error = im2uint8(im_error);
+
+% imshow(im_error);
+
+my_entropy(im_error)
+my_entropy(im)
