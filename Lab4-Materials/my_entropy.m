@@ -1,7 +1,7 @@
-function entropy_value = my_entropy(I)
+function entropy_value = my_entropy(varargin)
 
 % check parameters
-% I = ParseInputs(varargin{:});
+I = ParseInputs(varargin{:});
 
 % convert 0-1 to 0-255
 if ~islogical(I)
@@ -19,15 +19,15 @@ p = pixel_value ./ numel(I);
 
 entropy_value = -sum(p.*log2(p));
 
-%     % check parameters
-%     function I = ParseInputs(varargin)
-%         
-%         narginchk(1,1);
-%         
-%         validateattributes(varargin{1},{'uint8','uint16', 'double', 'logical'},...
-%             {'real', 'nonempty', 'nonsparse'},mfilename, 'I',1);
-%         
-%         I = varargin{1};
-%         
-%     end
+    % check parameters
+    function I = ParseInputs(varargin)
+        
+        narginchk(1,1);
+        
+        validateattributes(varargin{1},{'uint8','uint16', 'double', 'logical'},...
+            {'real', 'nonempty', 'nonsparse'},mfilename, 'I',1);
+        
+        I = varargin{1};
+        
+    end
 end

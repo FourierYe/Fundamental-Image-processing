@@ -2,27 +2,11 @@ clear
 clc
 
 im = imread('lenna512.bmp');
-im = im2double(im);
 
-im_padding = padarray(im,[1,1],'replicate');
+% generate error image
+im_error = generateDPCM(im)
 
-[m,n] = size(im);
+imshow(im_error);
 
-im_decoded = zeros(m,n);
-
-[j,k] = size(im_padding);
-
-for i=2:j-1
-   for j = 2:k-1 
-     im_decoded(i-1,j-1) = (2*im_padding(i,j-1)+ im_padding(i-1,j-1)+...
-         2*im_padding(i-1,j))/5;
-   end
-end
-
-im_error = im - im_decoded;
-im_error = im2uint8(im_error);
-
-% imshow(im_error);
-
-my_entropy(im_error)
-my_entropy(im)
+im_error_entropy = my_entropy(im_error)
+im_entropy = my_entropy(im)
