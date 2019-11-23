@@ -199,7 +199,7 @@ im_entropy =
 
 ###### Analysis
 
-As we can compare original image “lenna512.bmp” and the DPCM output image from the view of entropy, the entropy of DPCM is lower than that of original image, this means DPCM has litter information than that of original image. So DPCM will be easier to compressed. Because DPCM has litter information to compress and need few byte to compress.
+As we can compare original image “lenna512.bmp” and the DPCM output image from the view of entropy, the entropy of DPCM is lower than that of original image, this means DPCM has litter information than that of original image. So DPCM will be easier to compressed. Because DPCM has litter information to compress and need fewer bytes to compress.
 
 ---
 

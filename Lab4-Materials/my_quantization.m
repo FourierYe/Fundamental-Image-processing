@@ -16,7 +16,7 @@ elseif QP <=50
 end
 
 
-my_qun = @(block_struct) round(block_struct./(S*Qmat)).*(S*Qmat);
+my_qun = @(block_struct) round(block_struct./(S*Qmat));
 
 quantized_value = blkproc(im_dct,[8 8], my_qun);
 

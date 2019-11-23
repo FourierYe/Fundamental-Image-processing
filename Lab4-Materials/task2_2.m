@@ -10,7 +10,7 @@ psnr_list = [];
 for i=1:14:99
     im_dct_qun = my_quantization(im_dct, i);
     
-    image = decompress_image(im_dct_qun);
+    image = decompress_image(im_dct_qun,i);
     image = uint8(image);
     %     figure(count);
     %     imshow(image);
