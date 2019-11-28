@@ -144,7 +144,7 @@ As we can compare three entropy, the down-sampling image has a highest entropy, 
 ```matlab
 function im_error = generateDPCM(im)
 
-im = im2double(im);
+im = double(im);
 
 % padding
 im_padding = padarray(im,[1,1],'replicate');
@@ -162,8 +162,18 @@ for i=2:j-1
     end
 end
 
+% normalization 
 im_error = im - im_decoded;
-im_error = im2uint8(im_error);
+
+min_value = min(min(im_error));
+
+im_error = im_error + abs(min_value);
+
+max_value = max(max(im_error));
+
+im_error = im_error./max_value*255;
+
+im_error = uint8(im_error);
 
 end
 ```
@@ -185,12 +195,14 @@ im_entropy = my_entropy(im)
 
 ###### Result
 
-<img src="/Users/geekye/Documents/Courses/image processing/lab/Lab4-Materials/error_entropy.png" alt="image-20191116113045717" style="zoom:50%;" />
+<img src="/Users/geekye/Documents/Courses/image processing/lab/Lab4-Materials/task1_3.png" alt="image-20191128194246090" style="zoom:50%;" />
+
+<img src="/Users/geekye/Documents/Courses/image processing/lab/Lab4-Materials/task1_3_2.png" alt="image-20191128194650695" style="zoom:50%;" />
 
 ```matlab
 im_error_entropy =
 
-    2.6890
+    5.0848
     
 im_entropy =
 

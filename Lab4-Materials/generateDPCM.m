@@ -1,6 +1,6 @@
 function im_error = generateDPCM(im)
 
-im = im2double(im);
+im = double(im);
 
 % padding
 im_padding = padarray(im,[1,1],'replicate');
@@ -19,6 +19,15 @@ for i=2:j-1
 end
 
 im_error = im - im_decoded;
-im_error = im2uint8(im_error);
+
+min_value = min(min(im_error));
+
+im_error = im_error + abs(min_value);
+
+max_value = max(max(im_error));
+
+im_error = im_error./max_value*255;
+
+im_error = uint8(im_error);
 
 end
