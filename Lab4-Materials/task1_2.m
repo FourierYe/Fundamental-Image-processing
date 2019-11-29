@@ -6,7 +6,7 @@ im_entropy = my_entropy(im);
 
 im_half = down_samping(im);
 
-im_half_entropy = my_entropy(im_half);
+im_half_entropy = entropy(im_half);
 
 im_quantization = im./16*16;
 im_quantization_entropy = my_entropy(im_quantization);

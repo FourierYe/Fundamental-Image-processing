@@ -91,7 +91,7 @@ im_quantization_entropy = my_entropy(im_quantization);
 
 function narrow_matrix=down_samping(matrix)
    [m,n]=size(matrix);
-   matrix_double=im2double(matrix);
+   matrix_double=double(matrix);
    narrow_matrix=zeros(m/2,n/2);
    for i=1:2:m
        for j=1:2:n
@@ -100,6 +100,7 @@ function narrow_matrix=down_samping(matrix)
            narrow_matrix((i+1)/2,(j+1)/2)=mean_value;
        end
    end
+   narrow_matrix = uint8(narrow_matrix);
 end
 ```
 
@@ -112,7 +113,7 @@ im_entropy =
     
 im_half_entropy =
 
-    7.4213
+    7.4231
  
 im_quantization_entropy =
 
