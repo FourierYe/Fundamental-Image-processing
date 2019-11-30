@@ -1,6 +1,6 @@
 function boundary_edge = get_boundary(im)
 
-disk_se = strel('disk',1);
+disk_se = strel('disk',2);
 
 im_dialtion = imdilate(im, disk_se);
 
