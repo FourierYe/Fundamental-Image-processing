@@ -1,31 +1,19 @@
 clear 
 clc
 
-im = imread('sawtooth.bmp');
+im_sawtooth = imread('sawtooth.bmp');
 
-im = im2bw(im);
+im_sawtooth_boundary = get_boundary(im_sawtooth);
 
-circle_se = strel('disk',10);
+imshow(im_sawtooth_boundary);
 
-im_erode = imerode(im, circle_se); 
+title('The boundary of sawtooth');
 
-im_dilate = imdilate(im, circle_se);
-
-figure(1)
-imshow(im);
-title('im')
-
+im_sawtooth_edge = edge(im_sawtooth,'sobel');
 figure(2)
-imshow(im_erode);
-title('im\_erode')
+imshow(im_sawtooth_edge);
+
+im_sawtooth_perim = bwperim(im_sawtooth,4)
 
 figure(3)
-imshow(im_dilate);
-title('im\_dilate')
-
-im_edge = im_dilate - im_erode;
-
-figure(4)
-imshow(im_edge)
-title('edge')
-
+imshow(im_sawtooth_perim)
