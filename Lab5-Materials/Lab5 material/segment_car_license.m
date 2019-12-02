@@ -17,7 +17,22 @@ bottom = max(index)
 car_license_binary = car_license_binary([top:bottom],[left:right])
 
 [m,n] = size(car_license_binary);
+% 
+% top = 0;
+% bottom = 0
+% start_signal = 1
+% for i = 1:m
+%     if(sum(car_license_binary(i,:)>1))& start_signal
+%         top = i;
+%         start_signal = ~start_signal;
+%     elseif sum(car_license_binary(i,:) == 0 )& ~start_signal
+%         bottom = i ;
+%         break;       
+%     end
+% end
 
+car_license_binary = car_license_binary([36: 84],:);
+imshow(car_license_binary)
 column_position_list = [];
 
 start_signal = 1
@@ -40,9 +55,9 @@ length_position = length(column_position_list);
 character_im = {};
 
 for i = 1:2:length_position
-    left = column_position_list(i);
-    right = column_position_list(i+1);
-    character_im = [character_im ;car_license_binary(:,(left:right))];   
+    left = column_position_list(i)-3;
+    right = column_position_list(i+1)+3;
+    character_im = [character_im ;car_license_binary(:,(left:right))];
 end
 
 end

@@ -13,10 +13,10 @@ for i = 1:m
     is_segment_point_top = sum(alphanumeric_templates_binary(i,:)) >= 1;
     is_segment_point_bottom = sum(alphanumeric_templates_binary(i,:)) < 1;
     if is_segment_point_top & start_signal
-        row_position_list = [row_position_list i];
+        row_position_list = [row_position_list i-1];
         start_signal = ~start_signal;
     elseif is_segment_point_bottom & ~start_signal
-        row_position_list = [row_position_list i];
+        row_position_list = [row_position_list i+1];
         start_signal = ~start_signal;
     end
     
@@ -32,10 +32,10 @@ for i = 1:n
     is_segment_point_left = sum(alphanumeric_templates_binary(:,i)) >= 1;
     is_segment_point_right = sum(alphanumeric_templates_binary(:,i)) < 1;
     if is_segment_point_left & start_signal
-        column_position_list = [column_position_list i];
+        column_position_list = [column_position_list i-1];
         start_signal = ~start_signal;
     elseif is_segment_point_right & ~start_signal
-        column_position_list = [column_position_list i];
+        column_position_list = [column_position_list i+1];
         start_signal = ~start_signal;
     end
 end
