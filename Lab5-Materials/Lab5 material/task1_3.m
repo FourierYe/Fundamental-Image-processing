@@ -3,7 +3,7 @@ clc
 
 im_sawtooth = imread('sawtooth.bmp');
 
-disk_se = strel('disk',1);
+disk_se = strel('disk',20);
 
 im_open = imopen(im_sawtooth, disk_se);
 im_open_pixels = sum(sum(im_open == 255));

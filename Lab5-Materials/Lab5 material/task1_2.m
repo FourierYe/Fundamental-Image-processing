@@ -5,7 +5,7 @@ im = imread('sawtooth.bmp');
 subplot(3,2,1)
 imshow(im)
 title('original image')
-disk_se = strel('disk',10);
+disk_se = strel('disk',20);
 
 im_erosion = imerode(im,disk_se);
 subplot(3,2,2)

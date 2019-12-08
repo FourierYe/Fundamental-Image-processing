@@ -17,22 +17,10 @@ bottom = max(index)
 car_license_binary = car_license_binary([top:bottom],[left:right])
 
 [m,n] = size(car_license_binary);
-% 
-% top = 0;
-% bottom = 0
-% start_signal = 1
-% for i = 1:m
-%     if(sum(car_license_binary(i,:)>1))& start_signal
-%         top = i;
-%         start_signal = ~start_signal;
-%     elseif sum(car_license_binary(i,:) == 0 )& ~start_signal
-%         bottom = i ;
-%         break;       
-%     end
-% end
 
-car_license_binary = car_license_binary([36: 84],:);
-imshow(car_license_binary)
+left = min(find(sum(car_license_binary,2) >= 1)) -1;
+right = max(find(sum(car_license_binary,2) >= 1)) +1;
+car_license_binary = car_license_binary([left: right],:);
 column_position_list = [];
 
 start_signal = 1

@@ -4,8 +4,7 @@ disk_se = strel('disk',1);
 
 im_dialtion = imdilate(im, disk_se);
 
-% im_erode = imerode(im, disk_se);
-
-boundary_edge = im_dialtion - im;
+% we can use subtraction to get the same result
+boundary_edge = xor(im_dialtion,im);
 
 end
